@@ -4,23 +4,31 @@ import Image from 'next/image';
 import logo from "../../../public/logo.svg"
 import Link from 'next/link';
 import { navbarLinks } from '../../../utils/navbar';
-import { BellIcon } from '@heroicons/react/24/outline';
+import { BellIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import avatar from "../../../public/avatar.jpg"
+import { TSearchBar } from '../../../utils/types';
 
-function Navigation() {
+function Navigation({ filtering, setFiltering }: TSearchBar) {
     const [isOpen, setIsopen] = useState(false);
 
     const ToggleSidebar = () => {
         isOpen === true ? setIsopen(false) : setIsopen(true);
     };
+
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const ToggleDropdown = () => {
+        dropdownOpen === true ? setDropdownOpen(false) : setDropdownOpen(true);
+    };
+
+
     const router = useRouter();
     return (
         <>
 
-            <nav className="navbar">
+            <nav className="navbar mx-auto px-2 py-1">
 
                 <div className="row flex justify-between items-center">
-                    <div>
+                    <div className='flex justify-between items-center gap-3'>
                         <button
                             role="button"
                             id="burger_menu"
@@ -28,15 +36,7 @@ function Navigation() {
                             aria-label="burger_menu"
                             onClick={ToggleSidebar}
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                className="dark:fill-white"
-                            >
-                                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
-                            </svg>
+                            <Bars3Icon className='h-6 w-6 text-gray-800' />
                         </button>
                         <Image
                             src={logo}
@@ -44,9 +44,11 @@ function Navigation() {
                             priority={true}
                             style={{ objectFit: "cover" }}
                         />
-                        <input type="search" name="search" id="search" />
+                        <div className='w-[]'>
+                            <input type="search" name="search" id="search" placeholder='Search' className="w-full outline-none py-2 px-2 border-2 font-normal text-slate-800 text-sm rounded-sm my-2" value={filtering} onChange={setFiltering} />
+                        </div>
                     </div>
-                    <div>
+                    <div className='border hidden lg:flex'>
                         <button type='button'>Logout</button>
                         <button type="button">
                             <BellIcon className='h-6 w-6 text-slate-800' />
@@ -59,6 +61,26 @@ function Navigation() {
                             />
                         </button>
                     </div>
+
+
+                    <div className="flex flex-col lg:hidden">
+                        <button type='button' onClick={ToggleDropdown} className='border-none relative inline-block'>
+                            <Image className='avi'
+                                src={avatar}
+                                alt=""
+                                priority={true}
+                            />
+                        </button>
+                        {
+                            dropdownOpen === true && (
+                                <div className='shadow-sm shadow-gray-300 rounded bg-white flex flex-col gap-4 absolute min-w-48 right-5 top-[4rem] p-3 text-start'>
+                                    <Link href="#">Profile</Link>
+                                    <button type="button" className='border-none bg-transparent text-start'>Logout</button>
+                                </div>
+                            )
+                        }
+                    </div>
+
                 </div>
 
             </nav>
