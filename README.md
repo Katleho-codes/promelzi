@@ -4,11 +4,15 @@
 - [x] Can update a risk owner
 - [x] Can delete a risk owner
 - [x] Mobile responsive
+- [x] Search function
+- [x] Can sort table by clicking on any column head
+
 
 ## Tech used
 
 - Next.js
 - Typescript
+- Tailwind CSS 
 - JSON server
 
 ### How to start
